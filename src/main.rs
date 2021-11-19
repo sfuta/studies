@@ -64,7 +64,40 @@ fn _if() {
     };
     println!("The value of a in _if() is {}", a);
 }
+
+/**
+ * loop
+ */
+fn _loop() {
+
+    // No.1
+    // Non stop
+    // loop {
+    //     println!("yes");
+    // }
+
+    // No.2
+    let mut num = 3;
+    while num > 0 {
+        print!("{}!\n", num);
+        num = num - 1;
+    }
+    println!("Finished!!");
+
+    // No.3
+    let val = [10, 20, 30, 40, 50];
+    for ele in val.iter() {
+        println!("val is {}", ele);
+    }
+    // use range
+    for num in (1..5).rev() {
+        print!("{}\t", num);
+    }
+    print!("Finished!!\n");
+}
+
 fn main() {
+    _loop();
     _if();
     println!("The return value of _return0() is {}", _return0());
     _s_e(false);
