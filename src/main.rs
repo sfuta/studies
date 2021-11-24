@@ -66,10 +66,38 @@ impl Rectangle {
     fn area(&self) -> u32 {
         self.width * self.height
     }
+    fn is_holded(&self, target: &Rectangle) -> bool {
+        self.width > target.width
+        && self.height > target.height
+    }
+    // depended method
+    fn square(size: u32) -> Rectangle {
+        Rectangle { width: size, height: size}
+    }
+}
+// impl block may be separated
+impl Rectangle {
+    fn is_square(&self) -> bool {
+        self.width == self.height
+    }
 }
 fn _use_method() {
     let rect = Rectangle {width: 25, height: 16};
     println!("area is {}", rect.area());
+
+    let rect_base = Rectangle {width: 40, height: 40};
+    let rect_c1 = Rectangle {width: 39, height: 39};
+    let rect_c2 = Rectangle {width: 40, height: 39};
+    let rect_c3 = Rectangle {width: 39, height: 40};
+    println!("Is holded rect_c1?: '{}'", rect_base.is_holded(&rect_c1));
+    println!("Is holded rect_c2?: '{}'", rect_base.is_holded(&rect_c2));
+    println!("Is holded rect_c3?: '{}'", rect_base.is_holded(&rect_c3));
+
+    let square = Rectangle::square(20);
+    println!("'square' properties is {:?}", square);
+
+    println!("Is 'rect' square?:{}", rect.is_square());
+    println!("Is 'square' square?:{}", square.is_square());
 }
 
 
