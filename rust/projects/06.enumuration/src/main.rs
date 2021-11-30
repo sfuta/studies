@@ -97,10 +97,108 @@ fn _option() {
     // let sum = some_num + num;
 
 }
+
+/**
+ * match
+ */
+fn _match() {
+    #[allow(dead_code)]
+    #[derive(Debug)]
+    enum UsState {Alabama, Alaska, Etc}
+    #[allow(dead_code)] // warning disabled
+    enum Coin {
+        Penny, Nickel, Dime, Quarter(UsState),
+    }
+    fn unit_in_coin(coin: Coin) -> u32 {
+        match coin {
+            Coin::Penny => {
+                println!("Lucky penny!");
+                return 1;
+            },
+            Coin::Nickel => 5, Coin::Dime => 10,
+            Coin::Quarter(state) => {
+                println!("State quarter from {:?}!", state);
+                25
+            }
+        }
+    }
+    println!("Penny:{}", unit_in_coin(Coin::Penny));
+    println!("Dime:{}", unit_in_coin(Coin::Dime));
+    println!("Quarter:{}", unit_in_coin(Coin::Quarter(UsState::Etc)));
+}
+
+/**
+ * Option match
+ */
+fn _option_match() {
+    fn plus_one(x: Option<i32>) -> Option<i32> {
+        match x { None => None, Some(i) => Some(i + 1) }
+    }
+
+    let five = Some(5);
+    let six  = plus_one(five);
+    let none = plus_one(None);
+
+    println!("{:?}, {:?}", six, none);
+
+    /*
+    Follow is NG, None is not defined
+    fn plus_one_bug(x: Option<i32>) -> Option<i32> {
+        match x {  Some(i) => Some(i + 1) }
+    }
+    */
+}
+
+/**
+ * match other
+ */
+fn _match_other() {
+    fn _use_wild_card() {
+        let some_u8 = 0u8;
+        // let some_u8 = 1; // is match
+        match some_u8 {
+            1 => println!("one"), 3 => println!("three"), _ => (),
+        }
+    }
+    _use_wild_card();
+
+    fn _use_iflet() {
+        let some_u8 = Some(1u8);
+        // let some_u8 = Some(3u8); // is match
+        if let Some(3) = some_u8 {
+            println!("three");
+        }
+        // A follow is same.
+        match some_u8 {
+            Some(3) => println!("three"), _ => ()
+        }
+
+        #[derive(Debug)]
+        #[allow(dead_code)]
+        enum UsState {Alabama, Alaska, Etc}
+        #[allow(dead_code)] // warning disabled
+        enum Coin {
+            Penny, Nickel, Dime, Quarter(UsState),
+        }
+        let mut count = 0;
+        let coin = Coin::Quarter(UsState::Alabama);
+        if let Coin::Quarter(state) = coin {
+            println!("State quarer from {:?}", state);
+        } else {
+            count += 1;
+            println!("Else count:{}", count);
+        }
+    }
+    _use_iflet();
+}
+
 fn main() {
     _define();
     _struct();
     _define2();
     _define_method();
     _option();
+    _match();
+    _option_match();
+    _match_other();
 }
