@@ -1,5 +1,5 @@
 // compilerはsrc/lib.rsのみ確認を行う
-mod network;
+pub mod network;
 // network module separated file to network.rs
 // mod network {
 //     // if call, network::connect()
@@ -13,7 +13,7 @@ mod network;
 //     }
 // }
 
-mod client;
+pub mod client;
 // client module separated file
 // mod client {
 //     // if call, client::connect()
