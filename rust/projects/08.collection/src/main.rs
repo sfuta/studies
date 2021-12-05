@@ -29,6 +29,9 @@ fn _vec() {
     println!("");
 }
 
+/**
+ * String
+ */
 fn _str() {
     let mut s = "aaaa".to_string(); // = String::from("aaaa")
     s.push_str(" bbbb");
@@ -66,7 +69,60 @@ fn _str() {
 
 }
 
+/**
+ * Hash map
+ */
+fn _map() {
+    use std::collections::HashMap;
+
+    let mut scores: HashMap<String,u32> = HashMap::new();
+    scores.insert(String::from("Blue"), 10);
+    scores.insert(String::from("Yellow"), 22);
+
+    let teams = vec!["Blue", "Yellow"];
+    let init_score_values = vec![8, 40];
+    
+    let init_scores: HashMap<_, _> = teams.iter().zip(init_score_values.iter()).collect();
+    println!("map={:?}", init_scores);
+
+    let f1 = String::from("First");
+    let v1 = String::from("First Value");
+    let mut map1: HashMap<String,String> = HashMap::new();
+    map1.insert(f1, v1);
+    // f1,v1 is moved
+    // println!("{},{}", f1,v1);
+
+    // HashMap for
+    for (k, v) in &scores {
+        println!("(team, score) = ({}, {})", k, v);
+    }
+    print!("\n");
+
+    // HashMap::get()
+    println!("Blue team score={:?}", scores.get("Blue"));
+    // HashMap value update
+    scores.insert(String::from("Blue"), 40);
+    // HashMap value insert when value no exists
+    scores.entry(String::from("Yellow")).or_insert(65);
+    scores.entry(String::from("Blue")).or_insert(65);
+    scores.entry(String::from("Red")).or_insert(65);
+    for (k, v) in &scores {
+        println!("(team, score) = ({}, {})", k, v);
+    }
+
+    let text = "aaa bbb ccc ddd aaa";
+    let mut map: HashMap<&str, i8> = HashMap::new();
+    for word in text.split_whitespace() {
+        // HashMap::entry() return value is map value
+        let count = map.entry(word).or_insert(0);
+        // value is update
+        *count += 1;
+    }
+    println!("map={:?}", map);
+}
+
 fn main() {
     _vec();
     _str();
+    _map();
 }
