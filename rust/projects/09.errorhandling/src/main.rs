@@ -28,9 +28,21 @@ fn _errors_match() {
     };
 }
 
+use std::fs::File;
+
+fn _use_unwrap () {
+    let _f = File::open("hello.txt").unwrap();
+}
+
+fn _use_expect() {
+    let _f = File::open("hello.txt").expect("Failed open file. [hello.txt]");
+}
+
 fn main() {
     // _out_of_bound();
     // _panic();
     // _use_result();
-    _errors_match();
+    // _errors_match();
+    // _use_unwrap();
+    _use_expect();
 }
