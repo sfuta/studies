@@ -120,27 +120,37 @@ fn _generics_struct_enum () {
 /**
  * trait
  */
-fn _use_trait() {
-    pub trait Summary {
-        fn summarize(&self) -> String;
+pub trait Summary {
+    // fn summarize(&self) -> String;
+    // -> add defult 
+    fn summarize(&self) -> String {
+        String::from("(Read more...)")
     }
-    pub struct NewsArticle {
-        headline: String, location: String, author: String, pub content: String
+}
+pub struct NewsArticle {
+    headline: String, location: String, author: String, pub content: String
+}
+impl Summary for NewsArticle {
+    fn summarize(&self) -> String {
+        format!("{}, by {} {}", self.headline, self.author, self.location)
     }
-    impl Summary for NewsArticle {
-        fn summarize(&self) -> String {
-            format!("{}, by {} {}", self.headline, self.author, self.location)
-        }
-    }
+}
 
-    pub struct Tweet {
-        username: String, pub content: String, pub reply: bool, pub retweet: bool
+pub struct Tweet {
+    username: String, pub content: String, pub reply: bool, pub retweet: bool
+}
+impl Summary for Tweet {
+    fn summarize(&self) -> String {
+        format!("{}: {}", self.username, self.content)
     }
-    impl Summary for Tweet {
-        fn summarize(&self) -> String {
-            format!("{}: {}", self.username, self.content)
-        }
-    }
+}
+
+pub struct Task {
+    pub no: u32, pub summary: String, pub detail: String
+}
+impl Summary for Task {}
+
+fn _use_trait() {
 
     let tweet = Tweet {
         username: String::from("horce_ebooks")
@@ -148,6 +158,18 @@ fn _use_trait() {
         , reply: false, retweet: false
     };
     println!("1 new tweet: {}", tweet.summarize());
+    let article = NewsArticle {
+        headline: String::from("Penguines win the Stanley Cup Championship!")
+        , location: String::from("Pittsburgh, PA, USA")
+        , author: String::from("Iceburgh")
+        , content: String::from("The Pittesburgh Penguins once again are the best hockey team in the NHL.")
+    };
+    println!("New article available! {}", article.summarize());
+
+    let task = Task {
+        no: 3, summary: String::from("my sample"), detail: String::from("Trait with default")
+    };
+    println!("Trait sample. {}", task.summarize());
 }
 
 fn main() {
