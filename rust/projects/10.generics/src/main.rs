@@ -112,12 +112,46 @@ fn _generics_struct_enum () {
     #[allow(dead_code,non_camel_case_types)]
     enum Option_i32 {Some(i32), None}
     #[allow(dead_code,non_camel_case_types)]
-    enum Option_f64 {Some(f64), None};
+    enum Option_f64 {Some(f64), None}
     let _int = Option_i32::Some(5);
     let _float = Option_f64::Some(5.0);
+}
+
+/**
+ * trait
+ */
+fn _use_trait() {
+    pub trait Summary {
+        fn summarize(&self) -> String;
+    }
+    pub struct NewsArticle {
+        headline: String, location: String, author: String, pub content: String
+    }
+    impl Summary for NewsArticle {
+        fn summarize(&self) -> String {
+            format!("{}, by {} {}", self.headline, self.author, self.location)
+        }
+    }
+
+    pub struct Tweet {
+        username: String, pub content: String, pub reply: bool, pub retweet: bool
+    }
+    impl Summary for Tweet {
+        fn summarize(&self) -> String {
+            format!("{}: {}", self.username, self.content)
+        }
+    }
+
+    let tweet = Tweet {
+        username: String::from("horce_ebooks")
+        , content: String::from("of cource, as you probably already know, people")
+        , reply: false, retweet: false
+    };
+    println!("1 new tweet: {}", tweet.summarize());
 }
 
 fn main() {
     _find_max_v();
     _generics_struct_enum();
+    _use_trait();
 }
