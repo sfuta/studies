@@ -103,6 +103,18 @@ fn _generics_struct_enum () {
     let p3 = p1.mixup(p2);
     println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
 
+    // ジェネリクスを使用してもパフォーマンスには影響しない
+    // ->コンパイラーによって、再定義されるため(単相化)
+    // ex)
+    let _int = Some(5);
+    let _float = Some(5.0);
+    // ->
+    #[allow(dead_code,non_camel_case_types)]
+    enum Option_i32 {Some(i32), None}
+    #[allow(dead_code,non_camel_case_types)]
+    enum Option_f64 {Some(f64), None};
+    let _int = Option_i32::Some(5);
+    let _float = Option_f64::Some(5.0);
 }
 
 fn main() {
