@@ -172,8 +172,78 @@ fn _use_trait() {
     println!("Trait sample. {}", task.summarize());
 }
 
+fn _use_trait_domain() {
+
+    /**
+     * basic
+     */
+    #[allow(unused_variables, dead_code)]
+    pub fn notify<T: Summary>(item: T) {
+        println!("Breaking news! {}", item.summarize())
+    }
+
+    use std::fmt::Display;
+
+    /**
+     * muluti
+     */
+    #[allow(unused_variables, dead_code)]
+    fn notify2<T: Summary + Display>(item: T) {
+        // println!("Breaking news! {}", item.summarize()); // NG, summarize()がどちらか不明のため
+        println!("Setting trait domains")
+    }
+    #[allow(unused_variables, dead_code)]
+    fn notify3<T, U>(item: T, user: U) 
+        where T: Summary + Display, U: Display {
+        // println!("Breaking news! {}", item.summarize()); // NG, summarize()がどちらか不明のため
+        println!("Setting trait domains. use where")
+    }
+
+    let i32_list = vec![24, 68, 89, 44];
+    let char_list = vec!['h', 'k', 'a', 'm'];
+    /**
+     * fixe pattern 4 use genericsd
+     */
+    fn p4_find_max_from<T: PartialOrd + Copy>(list: &[T]) -> T {
+        let mut largest = list[0];
+        for &item in list.iter() {
+            if item > largest {
+                largest = item;
+            }
+        }
+        largest
+    }
+    println!("Max value is {} in 'i32_list'. (use generics function)", p4_find_max_from(&i32_list));
+    println!("Max value is '{}' in 'char_list'. (use generics function)", p4_find_max_from(&char_list));
+
+    // trait境界でメソッド実装を条件分けする
+    #[allow(dead_code)]
+    struct Pair<T> {x: T, y: T}
+    impl<T> Pair<T> {
+        #[allow(dead_code)]
+        fn new(x: T, y: T) -> Self {Self {x, y}}
+    }
+    impl<T: Display + PartialOrd> Pair<T> {
+        #[allow(dead_code)]
+        fn cmp_display(&self) {
+            if self.x >= self.y {
+                println!("The largest member is x = {}", self.x);
+            } else {
+                println!("The largest member is y = {}", self.y);
+            }
+        }
+    }
+
+    // blanket implementation
+    // DisplayにはToStringが常に実装してある
+    // impl<T: Display> ToString for T {....}
+
+}
+
+
 fn main() {
     _find_max_v();
     _generics_struct_enum();
     _use_trait();
+    _use_trait_domain();
 }
