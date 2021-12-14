@@ -240,10 +240,72 @@ fn _use_trait_domain() {
 
 }
 
+/**
+ * Life time(scope)
+ */
+fn _lifetime_explain() {
+
+    // Use borrow checker on Rust
+    // Follow is compile error, a' > b'
+    /*
+    let r;                  //--------------+--- a'
+    {                       //              |
+        let x = 5;          //---+--- b'    | 
+        r = &x;             //   |          |
+                            //   |          |
+    }                       //---+          |
+    println!("{}", r);      //--------------+
+    */
+    // Follow is not compile error, b' > a'
+    {
+        let x = 5;          //--------------+--- b'
+                            //              |
+        let r = &x;         //---+--- a'    | 
+                            //   |          |
+        println!("{}", r);  //   |          |
+                            //---+          |
+    }                       //--------------+
+}
+
+fn _lifetime() {
+
+    // 'a is lifetime declare
+    fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
+    let str1 = String::from("abcd");
+    let str2 = "nnn";
+
+    let result = longest(str1.as_str(), str2);
+    println!("The longest string is {}", result);
+
+    // Follow is compile error
+    /*
+    let sttr1 = String::from("hhhhhh");
+    {
+        let sttr2 = String::from("nnn");
+        let reult = longest(sttr1.as_str(), sttr2);
+        println!("The longest string is {}", result);
+    }
+    let stttr1 = String::from("hhhhhh");
+    let rslt;
+    {
+        let stttr2 = String::from("nnn");
+        rslt = longest(stttr1.as_str(), stttr2);
+        println!("The longest string is {}", rslt);
+    }
+    */
+}
 
 fn main() {
     _find_max_v();
     _generics_struct_enum();
     _use_trait();
     _use_trait_domain();
+    _lifetime_explain();
+    _lifetime();
 }
