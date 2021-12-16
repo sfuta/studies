@@ -301,6 +301,25 @@ fn _lifetime() {
     */
 }
 
+/**
+ * liftime's comment for struct definition
+ */
+fn _lifetime_struct() {
+
+    struct ImportantExcerpt<'a> {
+        part: &'a str,
+    }
+
+    let novel = String::from("Call met Ishmael. Some years ago....");
+    let first_sentense = novel.split('.').next()
+        .expect("Coud no find a '.'")
+        ;
+    
+    let i = ImportantExcerpt { part: first_sentense };
+
+    println!("Output lifetime struct:{}", i.part);
+}
+
 fn main() {
     _find_max_v();
     _generics_struct_enum();
@@ -308,4 +327,5 @@ fn main() {
     _use_trait_domain();
     _lifetime_explain();
     _lifetime();
+    _lifetime_struct();
 }
