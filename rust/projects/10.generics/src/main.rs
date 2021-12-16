@@ -320,6 +320,44 @@ fn _lifetime_struct() {
     println!("Output lifetime struct:{}", i.part);
 }
 
+/**
+ * lifetime's comment for method
+ */
+fn _lifetime_method() {
+
+    struct ImportantExcerpt<'a> {
+        part: &'a str,
+    }
+    // lifetime's comment is ommitted from &self
+    impl<'a> ImportantExcerpt<'a> {
+        fn level(&self) -> i32 {
+            3
+        }
+        fn announce_and_return_part(&self, announcement: &str) -> &str {
+            println!("Attension please: {}", announcement);
+            self.part
+        }
+    }
+
+    let s = ImportantExcerpt{ part: "abc" };
+    println!("Output:{}, {}", s.level(), s.announce_and_return_part("before..."));
+}
+
+/**
+ * generics, trait, lifetime
+ */
+fn _summary() {
+    use std::fmt::Display;
+
+    fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
+        where T: Display {
+            println!("Announcement! {}", ann);
+            if x.len() > y.len() { x } else { y }
+    }
+
+    println!("_summary output: {}", longest_with_an_announcement("x", "y", "x.len > y.len -> x:"))
+}
+
 fn main() {
     _find_max_v();
     _generics_struct_enum();
@@ -328,4 +366,6 @@ fn main() {
     _lifetime_explain();
     _lifetime();
     _lifetime_struct();
+    _lifetime_method();
+    _summary();
 }
