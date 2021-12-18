@@ -5,9 +5,70 @@ impl Rectangle {
         self.length > other.length && self.width > other.width
     }
 }
+
+pub fn add_two(a: i32) -> i32 {
+    a + 2
+}
+
+pub fn greeting(_name: &str) -> String {
+    // format!("Hello {}!", _name)
+    format!("Hello")
+}
+
+pub struct Guess {
+    #[allow(dead_code)]
+    value: u32,
+}
+impl Guess {
+    pub fn new(value: u32) -> Guess {
+        if value < 1 || value > 100 {
+            panic!("Guess value must be between 1 and 100, got {}", value);
+        }
+        return Guess { value };
+    }
+
+    pub fn get_instance(value: u32) -> Guess {
+        if value < 1 {
+            panic!("Guess value must be grater than or equal to 1, got {}", value);
+        }
+
+        if value > 100 {
+            panic!("Guess value must be less than or equal to 100, got {}", value);
+        }
+        
+        Guess { value }
+    }
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    #[should_panic(expected = "Guess value must be less than or equal to 100")]
+    fn throw_panic_greater_than_100() {
+        Guess::get_instance(200);
+    }
+    #[test]#[should_panic]
+    fn greater_than_100() {
+        Guess::new(200);
+    }
+
+    #[test]
+    fn greeting_contains_name() {
+        let result = greeting("Carol");
+        assert!(
+            result.contains("Carol")
+            , "Greeting did not contain name, value was '{}'", result
+        );
+    }
+
+    #[test]
+    fn it_adds_two() {
+        assert_eq!(4, add_two(2));
+        assert_eq!(5, add_two(2));
+    }
 
     #[test]
     fn smaller_can_hold_larger() {
@@ -29,11 +90,11 @@ mod tests {
         assert_eq!(result, 4);
     }
 
-    // #[test]
-    // fn another() {
-    //     // This test may fail
-    //     panic!("Make this fail");
-    // }
+    #[test]
+    fn another() {
+        // This test may fail
+        panic!("Make this fail");
+    }
 
 
 }
