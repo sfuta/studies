@@ -45,12 +45,22 @@ fn _prints_and_return_10(a: i32) -> i32 {
     10
 }
 
-
 #[cfg(test)]
-mod tests {
+mod sub {
+
+    #[test]
+    fn sub_test() {
+        let v = vec![5, 2];
+        assert_eq!(vec![5, 2], v);
+    }
+}
+
+#[cfg(test)]    // The execute is 'cargo test' command only
+mod ttt {
+// mod tests {
     use super::*;
 
-    // this is executed command with cargo test -- --ignored
+    // it is executed command with cargo test -- --ignored
     #[test]
     #[ignore]
     fn expensive_test() {
