@@ -5,7 +5,7 @@ use std::io::prelude::*;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let config = parse_config(&args);
+    let config = Config::new(&args);
 
     println!("Searching for {}\nin file {}", config.query, config.filename);
 
@@ -20,15 +20,12 @@ fn main() {
 
 struct Config { query: String, filename: String }
 
-/**
- * args parse 
- * 
- * @param &[String] args
- * @return Config
- */
-fn parse_config(args: &[String]) -> Config {
-    let query = args[1].clone();
-    let filename = args[2].clone();
+impl Config {
 
-    Config { query, filename }
+    fn new(args: &[String]) -> Config {
+        let query = args[1].clone();
+        let filename = args[2].clone();
+
+        Config { query, filename }
+    }
 }
