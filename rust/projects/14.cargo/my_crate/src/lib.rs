@@ -1,4 +1,10 @@
-/// 与えられた数値に1を足す
+// doc comment for my_crate
+//! # My Crate
+//! 
+//! `my_crate` is a collection of utilities to make performing certain
+//! caluculations more convert.
+
+// doc comment for add_one
 /// Adds one to the number given
 /// 
 /// # Examples
