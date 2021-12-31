@@ -48,6 +48,14 @@ fn _my_deref() {
     assert_eq!(5, *y);  // deref
 }
 
+fn hello(name: &str) {
+    println!("Hello, {}!", name);
+}
+fn _fn_deref() {
+    let m = MyBox::new(String::from("Rust"));
+    hello(&m);
+}
 fn main() {
     _box();
+    _fn_deref();
 }
