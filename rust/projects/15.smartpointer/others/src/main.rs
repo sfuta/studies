@@ -32,6 +32,9 @@ fn _rc() {
     println!("Count after c goes out of scope = {}", Rc::strong_count(&a));
 }
 
+extern crate others;
+
 fn main() {
     _rc();
+    others::rc_refcell::run();
 }
