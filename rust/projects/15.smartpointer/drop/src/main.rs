@@ -7,10 +7,23 @@ impl Drop for CustomSmartPointer {
     }
 }
 
-fn main() {
+fn _drop() {
     #[allow(unused_variables)]
     let c = CustomSmartPointer { data: String::from("my stuff") };
     #[allow(unused_variables)]
     let d = CustomSmartPointer { data: String::from("other stuff") };
     println!("CustomerSmartPointer created.");
+}
+
+fn _mem_drop() {
+    println!("Start _mem_drop");
+    #[allow(unused_variables)]
+    let c = CustomSmartPointer { data: String::from("some data") };
+    drop(c);
+    println!("CustomerSmartPointer created.");
+    println!("End _mem_drop");
+}
+fn main() {
+    _drop();
+    _mem_drop();
 }
