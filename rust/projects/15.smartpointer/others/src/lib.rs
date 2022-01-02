@@ -30,6 +30,7 @@ impl<'a, T> LimitTracker<'a, T> where T: Messenger {
 
 pub mod rc_refcell;
 pub mod ref_cycle;
+pub mod ref_weak;
 
 #[cfg(test)]
 mod tests {

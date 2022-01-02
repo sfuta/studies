@@ -38,4 +38,5 @@ fn main() {
     _rc();
     others::rc_refcell::run();
     others::ref_cycle::run();
+    others::ref_weak::run();
 }
