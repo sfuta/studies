@@ -5,6 +5,31 @@ fn _all() {
 
     foo(2000, 20);
 }
+
+fn _nest_part() {
+    let mut set_val = Some(5);
+    let new_set_val = Some(10);
+
+    match(set_val, new_set_val) {
+        (Some(_), Some(_)) => {
+            println!("Can't overwrite an existing customized value");
+        }
+        _ => {
+            set_val = new_set_val;
+        }
+    }
+
+    println!("setting is {:?}", set_val);
+
+    let numbers = (2, 4, 8, 16, 32);
+    match numbers {
+        (first, _, third, _, fifth) => {
+            println!("Some numbers: {}, {}, {}", first, third, fifth)
+        }
+    }
+}
+
 fn main() {
     _all();
+    _nest_part();
 }
