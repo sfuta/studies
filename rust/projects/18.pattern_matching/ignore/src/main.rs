@@ -40,8 +40,36 @@ fn _variable() {
     println!("{:?}", s);
 }
 
+struct Point {
+    x: i32, y: i32, z: i32,
+}
+
+fn _remnant() {
+
+    let origin = Point { x: 0, y: 0, z: 0 };
+
+    match origin {
+        Point { x, .. } => println!("x is {}", x),
+    }
+
+}
+
+fn _mid() {
+
+    let numbers = (2, 4, 6, 8, 10, 12);
+
+    match numbers {
+        (f, .., e) => {
+            println!("Some numbers: {}, {}", f, e);
+        }
+    }
+
+}
+
 fn main() {
     _all();
     _nest_part();
     _variable();
+    _remnant();
+    _mid();
 }
