@@ -29,7 +29,19 @@ fn _nest_part() {
     }
 }
 
+fn _variable() {
+    let _ignore = 5;
+
+    let s = Some(String::from("Hello"));
+    if let Some(_) = s {
+        println!("found a string");
+    }
+
+    println!("{:?}", s);
+}
+
 fn main() {
     _all();
     _nest_part();
+    _variable();
 }
