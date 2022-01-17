@@ -39,7 +39,18 @@ fn _unsafe_fn() {
     println!("a is {:?}", a);
     println!("b is {:?}", b);
 }
+
+extern "C" {
+    fn abs(input: i32) -> i32;
+}
+fn _call_extern_fn() {
+    unsafe {
+        println!("Absolute value of -3 according to C: {}", abs(-3));
+    }
+}
+
 fn main() {
     _simple();
     _unsafe_fn();
+    _call_extern_fn();
 }

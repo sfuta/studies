@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "unsafe_pointer"
+name = "unsafe_code"
 version = "0.1.0"
