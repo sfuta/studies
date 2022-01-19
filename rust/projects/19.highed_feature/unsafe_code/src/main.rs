@@ -66,6 +66,15 @@ fn _static() {
     }
 }
 
+unsafe trait Foo {
+    fn some_unsafe_method(v: u32) -> u32;
+}
+unsafe impl Foo for i32 {
+    fn some_unsafe_method(v: u32) -> u32 {
+        v + 1
+    }
+}
+
 fn main() {
     _simple();
     _unsafe_fn();
