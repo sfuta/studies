@@ -12,6 +12,10 @@ impl<'c, 's> Parser<'c, 's> {
 fn parse_context(context: Context) -> Result<(), &str> {
     Parser { context: &context }.parse()
 }
+
+struct Ref<'a, T: 'a>(&'a T);
+struct StaticRef<T: 'static>(&'static T);
+
 #[cfg(test)]
 mod tests {
     #[test]
