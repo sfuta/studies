@@ -2,7 +2,9 @@ extern crate hello;
 use hello::ThreadPool;
 
 use std::fs::File;
+
 use std::time::Duration;
+use std::thread;
 
 use std::io::prelude::*;
 use std::net::{TcpListener, TcpStream};
