@@ -3,21 +3,14 @@ use std::sync::mpsc;
 use std::sync::Arc;
 use std::sync::Mutex;
 
-pub struct ThreadPool {
-    workers: Vec<Worker>,
-    sender: mpsc::Sender<Job>,
+enum Message {
+    NewJob(Job),
+    Terminate,
 }
 
-impl Drop for ThreadPool{
-    fn drop(&mut self) {
-        for worker in &mut self.workers {
-            println!("Shutting down worker {}", worker.id);
-
-            if let Some(thread) = worker.thread.take() {
-                thread.join().unwrap();
-            }
-        }
-    }
+pub struct ThreadPool {
+    workers: Vec<Worker>,
+    sender: mpsc::Sender<Message>,
 }
 
 trait FnBox {
@@ -31,6 +24,18 @@ impl<F: FnOnce()> FnBox for F {
 }
 
 type Job = Box<dyn FnBox + Send + 'static>;
+
+impl Drop for ThreadPool{
+    fn drop(&mut self) {
+        for worker in &mut self.workers {
+            println!("Shutting down worker {}", worker.id);
+
+            if let Some(thread) = worker.thread.take() {
+                thread.join().unwrap();
+            }
+        }
+    }
+}
 
 impl ThreadPool {
 
@@ -63,7 +68,7 @@ impl ThreadPool {
         where F: FnOnce() + Send + 'static {
             let job = Box::new(f);
 
-            self.sender.send(job).unwrap();
+            self.sender.send(Message::NewJob(job)).unwrap();
         }
 }
 
@@ -73,14 +78,23 @@ struct Worker {
 }
 
 impl Worker {
-    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Message>>>) -> Worker {
         let thread = thread::spawn(move || {
             loop {
-                let job = receiver.lock().unwrap().recv().unwrap();
+                let message = receiver.lock().unwrap().recv().unwrap();
 
-                println!("Worker {} got a job; executing.", id);
+                match message {
+                    Message::NewJob(job) => {
+                        println!("Worker {} got a job; executing.", id);
+                        job.call_box();
 
-                job.call_box();
+                    },
+                    Message::Terminate => {
+                        println!("Worker {} was told to terminate.", id);
+                        break;
+
+                    }
+                }
             }
         });
 
